@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "ArkID登录助手",
+    "version": "1.0.0",
+    "options_page": "options.html",
+    "browser_action": {
+        "default_title": "ArkID登录助手",
+        "default_icon": "icon.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.liepin.com/"],
+            "js": ["js/liepin.js"],
+            "run_at": "document_end"
+        },
+        {
+            "matches": ["https://login.zhipin.com/"],
+            "js": ["js/zhipin.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "permissions": [
+        "storage"
+    ]
+}
