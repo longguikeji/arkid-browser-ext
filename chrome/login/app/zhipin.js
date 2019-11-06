@@ -1,8 +1,10 @@
 
 'use strict';
 
+var idp = "zhipin";
+
 function fillCredentials(){
     console.log("zhipin")
 }
 
-fillCredentials()
+withCredentials(fillCredentials, idp);

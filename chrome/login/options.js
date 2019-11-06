@@ -7,14 +7,14 @@ let input = document.getElementById('arkid')
 let submitButton = document.getElementById('submit')
 
 function constructOptions(){
-    chrome.storage.sync.get('arkid', function(data){
-        input.value = data.arkid;
+    chrome.storage.sync.get('arkidURL', function(data){
+        input.value = data.arkidURL;
     })
     submitButton.addEventListener(
         'click', function(){
-            var arkidAddr = input.value;
-            chrome.storage.sync.set({arkid: arkidAddr}, function(){
-                console.log('set arkid as ' + arkidAddr);
+            var arkidURL = input.value;
+            chrome.storage.sync.set({arkidURL: arkidURL}, function(){
+                console.log('set arkid as ' + arkidURL);
             })
         }
     )

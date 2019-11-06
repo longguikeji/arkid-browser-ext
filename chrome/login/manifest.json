@@ -7,19 +7,27 @@
         "default_title": "ArkID登录助手",
         "default_icon": "icon.png"
     },
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
     "content_scripts": [
         {
             "matches": ["https://www.liepin.com/"],
-            "js": ["js/liepin.js"],
+            "js": ["vendor/jquery-3.4.1.min.js", "credentials.js", "app/liepin.js"],
             "run_at": "document_end"
         },
         {
             "matches": ["https://login.zhipin.com/"],
-            "js": ["js/zhipin.js"],
+            "js": ["vendor/jquery-3.4.1.min.js", "credentials.js", "app/zhipin.js"],
             "run_at": "document_end"
         }
     ],
     "permissions": [
-        "storage"
+        "storage",
+        "tabs",
+        "http://*/",
+        "https://*/"
     ]
 }
