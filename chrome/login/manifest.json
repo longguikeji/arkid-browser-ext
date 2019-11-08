@@ -9,18 +9,18 @@
     },
     "background": {
         "scripts": [
-            "background.js"
+            "vendor/jquery-3.4.1.min.js", "background.js"
         ]
     },
     "content_scripts": [
         {
             "matches": ["https://www.liepin.com/"],
-            "js": ["vendor/jquery-3.4.1.min.js", "credentials.js", "app/liepin.js"],
+            "js": ["vendor/jquery-3.4.1.min.js", "app/liepin.js"],
             "run_at": "document_end"
         },
         {
             "matches": ["https://login.zhipin.com/"],
-            "js": ["vendor/jquery-3.4.1.min.js", "credentials.js", "app/zhipin.js"],
+            "js": ["vendor/jquery-3.4.1.min.js", "app/zhipin.js"],
             "run_at": "document_end"
         }
     ],

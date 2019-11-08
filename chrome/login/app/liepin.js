@@ -20,4 +20,6 @@ function fillCredentials(credentials){
 }
 
 
-withCredentials(fillCredentials, idp);
+chrome.runtime.sendMessage({method: "getToken", "idp": idp}, function(response){
+    fillCredentials(response)
+});
