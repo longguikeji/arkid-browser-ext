@@ -43,7 +43,8 @@ async function userInfoApi(q: {
     token: string
 }) {
     const url = 'http://192.168.3.49:8000/siteapi/v1/third_accounts/'
-    const data = await axios.post(url, q, {
+    const data = await axios.get(url, {
+        params: {website: q.website},
         headers: {'Authorization': 'token ' + q.token}
     }).then((resp) => {
         return resp.data
