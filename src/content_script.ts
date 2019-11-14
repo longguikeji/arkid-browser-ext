@@ -1,6 +1,7 @@
 let observer = new MutationObserver(checkInputType)
 
 observer.observe(document.documentElement, {
+    attributes: true,
     characterData: true,
     childList: true,
     subtree: true,
@@ -9,14 +10,32 @@ observer.observe(document.documentElement, {
 function checkInputType(){
     const input = document.getElementsByTagName('input')
     for (let i = 0; i < input.length; i++) {
-        if (input[i].type.toLowerCase() === 'password') {
-            chrome.runtime.sendMessage({hasPasswordInput: true}, (response) => {
+        if (input[i].type.toLowerCase() === 'password' || input[i].id.indexOf('password') !== -1) {
+            chrome.runtime.sendMessage({
+                hasPasswordInput: true
+            }, (response) => {
                 if (response) {
-                    if (i > 0) {
-                        input[i-1].value = response.mobile
+                    input[i-1].setAttribute('list', 'userlist')
+
+                    const listNode = document.createElement('datalist')
+                    listNode.id = 'userlist'
+                    input[i-1].parentElement.appendChild(listNode)
+
+                    for (let j = 0; j < response.length; j++) {
+                        const optionNode = document.createElement('option')
+                        optionNode.innerHTML = response[j].username
+                        listNode.appendChild(optionNode)
+
                     }
-                    input[i].value = response.password
-                    return 
+
+                    input[i-1].onchange = () => {
+                        for (let k = 0; k < response.length; k++) {
+                            if (input[i-1].value === response[k].username) {
+                                input[i].value = response[k].password
+                                break
+                            }
+                        }
+                    }
                 }
             })
         }

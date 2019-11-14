@@ -1,31 +1,55 @@
+import axios from 'axios'
+
 let arkToken: string|null = null
 let oldUrl: string|null = null
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener( async (request, sender, sendResponse) => {
     if (request.token) {
         arkToken = request.token
-        return
     }
     if (arkToken && request.hasPasswordInput) {
-        sendResponse(getUserInfo(sender.url)) 
+        const userInfo = await getUserInfo(sender.url)
+        sendResponse(userInfo)
+    } else {
+        sendResponse(null)
     }
 })
 
-function getUserInfo(url) {
+async function getUserInfo(url: string) {
     if (oldUrl === url) {
-        return
+        return null
     }
     oldUrl = url
 
     const index = url.indexOf('.com')
     url = url.slice(0, index + 4)
 
-    // console.log('url', url)
-    // console.log('token', arkToken)
+    const userInfo = await userInfoApi({
+        website: url,
+        token: arkToken,
+    })
+    return userInfo
+    // return [{
+    //     username: 'admin',
+    //     password: 'admin',
+    // }, {
+    //     username: '22',
+    //     password: '222',
+    // }]
+}
 
-    const response = {
-        mobile: '',
-        password: '',
-    }
-    return response
+async function userInfoApi(q: {
+    website: string,
+    token: string
+}) {
+    const url = 'http://192.168.3.49:8000/siteapi/v1/third_accounts/'
+    const data = await axios.post(url, q, {
+        headers: {'Authorization': 'token ' + q.token}
+    }).then((resp) => {
+        return resp.data
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    return data
 }

@@ -5,11 +5,12 @@ let arkObserver = new MutationObserver(() => {
   if (token) {
     chrome.runtime.sendMessage({
       token,
-    })
+    }, () => {})
   }
 })
 
 arkObserver.observe(document.documentElement, {
+    attributes: true,
     characterData: true,
     childList: true,
     subtree: true,
