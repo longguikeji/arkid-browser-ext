@@ -10,16 +10,16 @@ observer.observe(document.documentElement, {
 function checkInputType(){
     const input = document.getElementsByTagName('input')
     for (let i = 0; i < input.length; i++) {
-        if (input[i].type.toLowerCase() === 'password' || input[i].id.indexOf('password') !== -1) {
+        if (input[i].type.toLowerCase() === 'password' || input[i].id.indexOf('password2') !== -1) {
             chrome.runtime.sendMessage({
                 hasPasswordInput: true
             }, (response) => {
                 if (response) {
-                    input[i-1].setAttribute('list', 'userlist')
+                    input[i-1].setAttribute('list', 'oneidUserlist')
 
                     const listNode = document.createElement('datalist')
-                    listNode.id = 'userlist'
-                    input[i-1].parentElement.appendChild(listNode)
+                    listNode.id = 'oneidUserlist'
+                    input[i-1].appendChild(listNode)
 
                     for (let j = 0; j < response.length; j++) {
                         const optionNode = document.createElement('option')

@@ -21,7 +21,7 @@
 
   "content_scripts": [
       {
-          "matches": ["http://192.168.3.43/*"],
+          "matches": ["https://arkid.demo.longguikeji.com/"],
           "js": ["js/vendor.js", "js/arkid.js"]
       },
       {

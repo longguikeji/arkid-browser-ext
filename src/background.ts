@@ -28,9 +28,10 @@ async function getUserInfo(url: string) {
     }
     oldUrl = url
 
-    const afterIndex = url.indexOf('.com')
-    const beforeIndex = url.indexOf('://')
-    url = url.slice(beforeIndex + 3, afterIndex + 4)
+    const urlArr = url.split('/')
+    if (urlArr[2]) {
+        url = urlArr[2]
+    }
 
     if (!url) {
         return
@@ -48,7 +49,7 @@ async function userInfoApi(q: {
     domain: string,
     token: string
 }) {
-    const url = 'http://192.168.3.9:18002/siteapi/oneid/ucenter/sub_account/'
+    const url = 'http://arkid.demo.longguikeji.com/siteapi/oneid/ucenter/sub_account/'
     const data = await axios.get(url, {
         params: {domain: q.domain},
         headers: {'Authorization': 'token ' + q.token}
