@@ -17,7 +17,7 @@ function checkInputType(){
                 if (response) {
                     let index = i - 1
 
-                    if (input[index].id.indexOf('password') > -1) {
+                    if (input[index].id.indexOf('password2') > -1) {
                         index -= 1
                     }
 
