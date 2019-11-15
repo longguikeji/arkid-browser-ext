@@ -3,13 +3,20 @@ import axios from 'axios'
 let arkToken: string|null = null
 let oldUrl: string|null = null
 
-chrome.runtime.onMessage.addListener( async (request, sender, sendResponse) => {
-    if (request.token) {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+
+    if (request.token) { 
         arkToken = request.token
     }
+
     if (arkToken && request.hasPasswordInput) {
-        const userInfo = await getUserInfo(sender.url)
-        sendResponse(userInfo)
+
+        Promise.resolve(getUserInfo(sender.url))
+            .then(
+                data => sendResponse(data)
+            )
+        return true
+
     } else {
         sendResponse(null)
     }
@@ -17,37 +24,36 @@ chrome.runtime.onMessage.addListener( async (request, sender, sendResponse) => {
 
 async function getUserInfo(url: string) {
     if (oldUrl === url) {
-        return null
+        return
     }
     oldUrl = url
 
-    const index = url.indexOf('.com')
-    url = url.slice(0, index + 4)
+    const afterIndex = url.indexOf('.com')
+    const beforeIndex = url.indexOf('://')
+    url = url.slice(beforeIndex + 3, afterIndex + 4)
+
+    if (!url) {
+        return
+    }
 
     const userInfo = await userInfoApi({
-        website: url,
+        domain: url,
         token: arkToken,
     })
+
     return userInfo
-    // return [{
-    //     username: 'admin',
-    //     password: 'admin',
-    // }, {
-    //     username: '22',
-    //     password: '222',
-    // }]
 }
 
 async function userInfoApi(q: {
-    website: string,
+    domain: string,
     token: string
 }) {
-    const url = 'http://192.168.3.49:8000/siteapi/v1/third_accounts/'
+    const url = 'http://192.168.3.9:18002/siteapi/oneid/ucenter/sub_account/'
     const data = await axios.get(url, {
-        params: {website: q.website},
+        params: {domain: q.domain},
         headers: {'Authorization': 'token ' + q.token}
     }).then((resp) => {
-        return resp.data
+        return resp.data.results
     })
     .catch((error) => {
         console.log(error);

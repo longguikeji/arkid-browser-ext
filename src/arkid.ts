@@ -2,6 +2,7 @@ let token: string|null = null
 
 let arkObserver = new MutationObserver(() => {
   token = localStorage.getItem('oneid')
+
   if (token) {
     chrome.runtime.sendMessage({
       token,
