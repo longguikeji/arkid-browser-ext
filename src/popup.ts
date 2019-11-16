@@ -11,4 +11,10 @@ $(function() {
       window.close()
     })
   })
+  
+  chrome.storage.sync.get(['arkUrl'], (result) => {
+    if (result) {
+      $('#url').val(result.arkUrl)
+    }
+  })
 })
