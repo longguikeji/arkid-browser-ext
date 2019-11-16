@@ -3,15 +3,7 @@ const originUrl = window.location.origin
 
 chrome.storage.sync.get(['arkUrl'], (result) => {
   if (result.arkUrl && result.arkUrl === originUrl) {
-    let arkObserver = new MutationObserver(() => {
-      token = localStorage.getItem('oneid')
-
-      if (token) {
-        chrome.runtime.sendMessage({
-          token,
-        }, () => {})
-      }
-    })
+    let arkObserver = new MutationObserver(sendToken)
 
     arkObserver.observe(document.documentElement, {
       attributes: true,
@@ -22,3 +14,12 @@ chrome.storage.sync.get(['arkUrl'], (result) => {
   }
 })
 
+function sendToken() {
+    token = localStorage.getItem('oneid')
+
+    if (token) {
+      chrome.runtime.sendMessage({
+        token,
+      }, () => {})
+    }
+}

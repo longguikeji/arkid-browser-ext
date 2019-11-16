@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 let arkToken: string|null = null
-let oldUrl: string|null = null
 let arkUrl: string|null = null
 
 chrome.storage.sync.get(['arkUrl'], (result) => {
@@ -28,10 +27,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 })
 
 async function getUserInfo(url: string) {
-  if (oldUrl === url) {
-    return
-  }
-  oldUrl = url
 
   const urlArr = url.split('/')
   if (urlArr[2]) {
