@@ -21,12 +21,8 @@
 
   "content_scripts": [
       {
-          "matches": ["https://arkid.demo.longguikeji.com/"],
-          "js": ["js/vendor.js", "js/arkid.js"]
-      },
-      {
           "matches": ["<all_urls>"],
-          "js": ["js/vendor.js", "js/content_script.js"]
+          "js": ["js/vendor.js", "js/content_script.js", "js/arkid.js"]
       }
   ],
 

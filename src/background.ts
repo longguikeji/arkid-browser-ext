@@ -2,6 +2,11 @@ import axios from 'axios'
 
 let arkToken: string|null = null
 let oldUrl: string|null = null
+let arkUrl: string|null = null
+
+chrome.storage.sync.get(['arkUrl'], (result) => {
+    arkUrl = result.arkUrl
+})
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
@@ -49,7 +54,8 @@ async function userInfoApi(q: {
     domain: string,
     token: string
 }) {
-    const url = 'http://arkid.demo.longguikeji.com/siteapi/oneid/ucenter/sub_account/'
+    const url = `${arkUrl}/siteapi/oneid/ucenter/sub_account/`
+
     const data = await axios.get(url, {
         params: {domain: q.domain},
         headers: {'Authorization': 'token ' + q.token}
