@@ -9,11 +9,12 @@ for (let i = 0; i < input.length; i++) {
       if (response) {
         let index = i - 1
 
-        if (input[index].id.indexOf('password2') > -1) {
+        if (input[index].id.indexOf('password2') > -1) { //处理特殊情况http://www.hwjob365.com/
           index -= 1
         }
 
         input[index].setAttribute('list', 'oneidUserlist')
+        input[index].setAttribute('autocomplete', 'off')
 
         const listNode = document.createElement('datalist')
         listNode.id = 'oneidUserlist'
@@ -23,7 +24,6 @@ for (let i = 0; i < input.length; i++) {
           const optionNode = document.createElement('option')
           optionNode.innerHTML = response[j].username
           listNode.appendChild(optionNode)
-
         }
 
         input[index].onchange = () => {
