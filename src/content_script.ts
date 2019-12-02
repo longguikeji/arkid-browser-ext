@@ -17,6 +17,7 @@ for (let i = 0; i < input.length; i++) {
         input[index].onchange = () => {
           for (let k = 0; k < response.length; k++) {
             if (input[index].value === response[k].username) {
+              input[index].setAttribute('autocomplete', 'off')
               input[i].setAttribute('value', response[k].password)
               if (i - index == 2) {
                 input[i-1].value = '··········' //处理特殊情况http://www.hwjob365.com/
@@ -35,7 +36,6 @@ function createUserlist(usernameInput: HTMLElement, response: [{
     password: string
   }]) {
         usernameInput.setAttribute('list', 'oneidUserlist')
-        usernameInput.setAttribute('autocomplete', 'off')
 
         const listNode = document.createElement('datalist')
         listNode.id = 'oneidUserlist'
