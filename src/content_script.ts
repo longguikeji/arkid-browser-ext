@@ -16,10 +16,9 @@ for (let i = 0; i < input.length; i++) {
         const passwordInput = input[i]
 
         const newInput = document.createElement('input')
+        usernameInput.parentElement.insertBefore(newInput, usernameInput)
 
         addInputClass(newInput, usernameInput)
-
-        usernameInput.parentElement.insertBefore(newInput, usernameInput)
 
         createUserlist(newInput, response)
 
@@ -59,9 +58,17 @@ function createUserlist(usernameInput: HTMLElement, response: [{
 }
 
 function addInputClass(newInput: HTMLElement, usernameInput: HTMLElement) {
+  if (newInput.parentElement.style.position == '') {
+    newInput.parentElement.style.setProperty('position', 'relative', 'important') // 处理父节点无 position 的情况
+  }
+
   newInput.className = 'extension-input'
 
   const parentHeight = usernameInput.parentElement.offsetHeight
-  const top = parentHeight / 2 - 7
+  let top = parentHeight / 2 - 7
+  if (top < 0) {
+    newInput.style.setProperty('position', 'relative', 'important') // 暂时处理特殊情况 passport.liepin.com TODO
+    top = 40
+  }
   newInput.style.top = top + 'px'
 }
