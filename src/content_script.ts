@@ -12,15 +12,25 @@ for (let i = 0; i < input.length; i++) {
           index -= 1
         }
 
-        createUserlist(input[index], response)
+        const usernameInput = input[index]
+        const passwordInput = input[i]
 
-        input[index].onchange = () => {
+        const newInput = document.createElement('input')
+
+        addInputClass(newInput, usernameInput)
+
+        usernameInput.parentElement.insertBefore(newInput, usernameInput)
+
+        createUserlist(newInput, response)
+
+        newInput.onchange = () => {
           for (let k = 0; k < response.length; k++) {
-            if (input[index].value === response[k].username) {
-              input[index].setAttribute('autocomplete', 'off')
-              input[i].setAttribute('value', response[k].password)
+            if (newInput.value === response[k].username) {
+              usernameInput.value = response[k].username
+              passwordInput.value = response[k].password
+              newInput.value = ''
               if (i - index == 2) {
-                input[i-1].value = '··········' //处理特殊情况http://www.hwjob365.com/
+                input[i].value = '••••••••' //处理特殊情况http://www.hwjob365.com/
               }
               break
             }
@@ -39,11 +49,19 @@ function createUserlist(usernameInput: HTMLElement, response: [{
 
         const listNode = document.createElement('datalist')
         listNode.id = 'oneidUserlist'
-        usernameInput.appendChild(listNode)
+        usernameInput.parentElement.insertBefore(listNode, usernameInput)
 
         for (let j = 0; j < response.length; j++) {
           const optionNode = document.createElement('option')
           optionNode.innerHTML = response[j].username
           listNode.appendChild(optionNode)
         }
+}
+
+function addInputClass(newInput: HTMLElement, usernameInput: HTMLElement) {
+  newInput.className = 'extension-input'
+
+  const parentHeight = usernameInput.parentElement.offsetHeight
+  const top = parentHeight / 2 - 7
+  newInput.style.top = top + 'px'
 }
