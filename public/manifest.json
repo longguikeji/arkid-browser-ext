@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+
+  "name": "ArkID登录助手",
+  "description": "ArkID Login Helper",
+  "version": "1.0",
+
+  "icons": {
+    "64": "icon.png"
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+      {
+          "matches": ["<all_urls>"],
+          "js": ["js/vendor.js", "js/content_script.js", "js/arkid.js"],
+          "css": ["extension.css"]
+      }
+  ],
+
+  "background": {
+    "scripts": ["js/vendor.js", "js/background.js"]
+  },
+
+  "permissions": [
+    "storage",
+    "<all_urls>"
+  ]
+}
